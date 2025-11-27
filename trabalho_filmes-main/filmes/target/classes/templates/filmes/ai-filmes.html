@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendações IA | MovieHub</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.png}">
+</head>
+<body>
+<div class="container">
+
+    <aside class="sidebar">
+        <h1 class="logo">MovieHub <img th:src="@{/icons/film 1.png}" class="logomarca-img" alt="Logo"></h1>
+        <nav>
+            <ul class="lista-sidebar">
+                <li><a th:href="@{/filmes}" ><img th:src="@{/icons/tool 1.png}"> Ver tudo</a></li>
+                <li><a th:href="@{/filmes/criar}"><img th:src="@{/icons/add 1.png}"> Novo Filme</a></li>
+                <li><a th:href="@{/filmes/ai}" class="active"><img th:src="@{/icons/film 1.png}"> Recomendações IA</a></li>
+                <li><a href="#" style="opacity: 0.5; cursor: not-allowed;"><img th:src="@{/icons/edit (1) 1.png}"> Editar Filme</a></li>
+                <li><a href="#" style="opacity: 0.5; cursor: not-allowed;"><img th:src="@{/icons/view (1) 1.png}"> Ver Filme</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h2>Descubra filmes de sucesso com o Gemini AI!</h2>
+            <a th:href="@{/filmes/criar}"><button class="btn-novo">+ Novo Filme</button></a>
+        </header>
+
+        <section class="form-container">
+            <h3>Recomendação de Filmes por Bilheteria<img th:src="@{/icons/happiness (1).png}" alt="ícone" class="icon-h3"></h3>
+
+            <form class="form-filme" th:action="@{/filmes/ai}" method="post">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="genero">Gênero</label>
+
+                        <select id="genero" name="genero">
+                            <option value="" th:selected="${generoSelecionado == ''}">Todas as Categorias (Maiores Bilheterias Globais)</option>
+                            <option th:each="g : ${generos}"
+                                    th:value="${g}"
+                                    th:text="${g}"
+                                    th:selected="${g == generoSelecionado}">Gênero</option>
+                        </select>
+                    </div>
+
+                    <div class="form-buttons" style="margin-top: 25px;">
+                        <button type="submit" class="btn-adicionar">Buscar com IA</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <div th:if="${not #lists.isEmpty(filmesRecomendados)}">
+            <h3 style="margin-top: 30px;">
+                Filmes Recomendados pela IA:
+                <span th:text="${generoSelecionado != '' ? generoSelecionado : 'Geral'}">Geral</span>
+            </h3>
+
+            <section class="filmes" style="grid-template-columns: 1fr;">
+
+                <div class="filme" th:each="filme : ${filmesRecomendados}" style="height: auto; text-align: left; align-items: flex-start; padding: 15px; margin-bottom: 10px;">
+
+                    <h3 th:text="${filme.nome}" style="min-height: auto; font-size: 18px; color: #800000; text-align: left; margin: 0 0 5px 0;">Nome do Filme</h3>
+                    <p><strong>Gênero:</strong> <span th:text="${filme.genero}"></span></p>
+                    <p style="margin-top: 5px; font-size: 14px;">
+                        <strong style="color: #333;">Justificativa (Bilheteria/Sucesso):</strong> <span th:text="${filme.justificativa}"></span>
+                    </p>
+                </div>
+
+            </section>
+        </div>
+
+        <div th:if="${#lists.isEmpty(filmesRecomendados) and generoSelecionado != ''}" style="margin-top: 30px; text-align: center; color: #800000;">
+            <h3>Clique em "Buscar com IA" para ver a recomendação!</h3>
+        </div>
+
+    </main>
+</div>
+</body>
+</html>

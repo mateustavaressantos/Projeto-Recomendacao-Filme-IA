@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieHub</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.png}">
+</head>
+<body>
+<div class="container">
+
+    <aside class="sidebar">
+        <h1 class="logo">MovieHub <img th:src="@{/icons/film 1.png}" class="logomarca-img" alt="Logo"></h1>
+        <nav>
+            <ul class="lista-sidebar">
+                <li><a th:href="@{/filmes}" class="active"><img th:src="@{/icons/tool 1.png}"> Ver tudo</a></li>
+                <li><a th:href="@{/filmes/criar}"><img th:src="@{/icons/add 1.png}"> Novo Filme</a></li>
+                <li><a th:href="@{/filmes/ai}"><img th:src="@{/icons/film 1.png}"> Recomendações IA</a></li>
+                <li><a href="#" style="opacity: 0.5; cursor: not-allowed;"><img th:src="@{/icons/edit (1) 1.png}"> Editar Filme</a></li>
+                <li><a href="#" style="opacity: 0.5; cursor: not-allowed;"><img th:src="@{/icons/view (1) 1.png}"> Ver Filme</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h2>Seu ponto de encontro com o mundo do cinema!</h2>
+            <a th:href="@{/filmes/criar}"><button class="btn-novo">+ Novo Filme</button></a>
+        </header>
+
+        <section class="filmes">
+
+            <div th:if="${#lists.isEmpty(filmes)}">
+                <h3>Nenhum filme cadastrado ainda.</h3>
+            </div>
+
+            <div class="filme" th:each="filme : ${filmes}">
+
+                <img th:src="${filme.cartazUrl}" th:alt="${filme.nome}" alt="Capa do Filme">
+                <h3 th:text="${filme.nome}">Nome do Filme</h3>
+
+                <div class="botoes">
+                    <a th:href="@{/filmes/editar/{id}(id=${filme.id})}"><button class="editar">Editar</button></a>
+
+                    <a th:href="@{/filmes/{id}(id=${filme.id})}"><button class="ver-mais">Ver mais</button></a>
+                </div>
+            </div>
+
+        </section>
+    </main>
+</div>
+</body>
+</html>

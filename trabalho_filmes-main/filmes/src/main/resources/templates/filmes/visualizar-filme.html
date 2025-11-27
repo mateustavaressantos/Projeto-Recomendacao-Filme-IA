@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${filme.nome} + ' | MovieHub'">Detalhes do Filme | MovieHub</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+  <link rel="icon" type="image/x-icon" th:href="@{/favicon.png}">
+</head>
+<body>
+<div class="container">
+
+  <aside class="sidebar">
+    <h1 class="logo">MovieHub <img th:src="@{/icons/film 1.png}" class="logomarca-img" alt="Logo"></h1>
+    <nav>
+      <ul class="lista-sidebar">
+        <li><a th:href="@{/filmes}"><img th:src="@{/icons/tool 1.png}"> Ver tudo</a></li>
+        <li><a th:href="@{/filmes/criar}"><img th:src="@{/icons/add 1.png}"> Novo Filme</a></li>
+        <li><a th:href="@{/filmes/ai}"><img th:src="@{/icons/film 1.png}"> Recomendações IA</a></li>
+        <li><a th:href="@{/filmes/editar/{id}(id=${filme.id})}"><img th:src="@{/icons/edit (1) 1.png}"> Editar Filme</a></li>
+        <li><a th:href="@{/filmes/{id}(id=${filme.id})}" class="active"><img th:src="@{/icons/view (1) 1.png}"> Ver Filme</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="main-content">
+    <header>
+      <h2>Seu ponto de encontro com o mundo do cinema!</h2>
+      <a th:href="@{/filmes}"><button class="btn-novo">Voltar para Lista</button></a>
+    </header>
+
+    <section class="detalhes-filme-container" th:object="${filme}">
+
+      <div class="detalhes-filme">
+
+        <div class="detalhes-poster">
+          <img th:src="*{cartazUrl}" th:alt="*{nome}" alt="Pôster do Filme">
+        </div>
+
+        <div class="detalhes-info">
+
+          <div class="detalhes-header-info">
+            <h2 class="detalhes-titulo" th:text="*{nome}">Título</h2>
+            <span class="detalhes-avaliacao" th:text="*{avaliacao}">Avaliação</span>
+          </div>
+
+          <p class="detalhes-metadados">
+            <span th:text="*{genero}">Gênero</span> |
+            <span th:text="*{tempoMinutos} + ' min.'">Tempo em Min.</span>
+          </p>
+
+          <h3>Descrição:</h3>
+          <p class="detalhes-sinopse" th:text="*{descricao}">Descrição</p>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>
